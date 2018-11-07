@@ -30,9 +30,9 @@ $(document).ready(function () {
             counterPower: 20
         }
     ];
-    
+
     //This loop adds cards for each fighter in the fighters array:
-    for(let i = 0; i < fighters.length; i++) {
+    for (let i = 0; i < fighters.length; i++) {
         //Copy the hidden, blank template card:
         var $card = $('.blank-fighter-card').clone();
         $card.removeClass('blank-fighter-card hidden');
@@ -42,7 +42,18 @@ $(document).ready(function () {
         $card.children('.fighter-name').text(fighters[i].name);
         $card.children('.fighter-portrait').attr('src', fighters[i].portrait);
         $card.children('.fighter-health').text(fighters[i].health);
-        $card.appendTo(".fight-box");
+        $card.appendTo('.fighter-selection-box');
     }
+
+    let fighterPicked = false;
+
+
+    $('.fighter-card').on('click', function () {
+        if (!fighterPicked) {
+            $(this).appendTo('.fighter-box');
+            fighterPicked = true;
+        }
+    })
+
 
 });
