@@ -1,0 +1,9 @@
+******************************************************************
+                            FIGHTING GAAAME
+******************************************************************
+
+1. Define possible fighters as array of objects
+2. Write functions for picking fighter and opponent
+3. Write functions for attacking
+4. Write functions for DOM updates
+5. Game loop

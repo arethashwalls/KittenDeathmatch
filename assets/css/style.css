@@ -1,0 +1,12 @@
+.fighter-card {
+    display: inline-block;
+    margin: 20px;
+}
+
+.fighter-portrait {
+    width: 300px;
+}
+
+.hidden {
+    display: none;
+}
