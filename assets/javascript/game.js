@@ -45,15 +45,37 @@ $(document).ready(function () {
         $card.appendTo('.fighter-selection-box');
     }
 
-    let fighterPicked = false;
+    var fighterPicked = false;
+    var opponentPicked = false;
+    var myFighterID = '';
 
 
     $('.fighter-card').on('click', function () {
         if (!fighterPicked) {
             $(this).appendTo('.fighter-box');
             fighterPicked = true;
+            myFighterID = $(this).attr('id');
+            $('.fighter-card').each(function () {
+                if ($(this).attr('id') !== myFighterID) {
+                    $(this).appendTo('.opponent-selection-box');
+                }
+            });
+            $('.section-title').text('Chose Your Opponent');
+        } else if (!opponentPicked) {
+            $(this).appendTo('.opponent-box');
+            opponentPicked = true;
+            myOpponentId = $(this).attr('id');
+            $('.fighter-card').each(function () {
+                if ($(this).attr('id') !== myFighterID && $(this).attr('id') !== myOpponentId) {
+                    $(this).addClass('hidden');
+                }
+            });
+            $('.section-title').text('Fight!');
+        } else if(fighterPicked && opponentPicked) {
+           if($(this).attr('id') === myFighterID) {
+               console.log('hi')
+           }
         }
-    })
-
-
+    });//End onClick for Fighter and Opponent selection
+    
 });
