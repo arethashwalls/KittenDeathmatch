@@ -5,39 +5,36 @@ $(document).ready(function () {
             name: 'Fighter 1',
             portrait: 'assets/images/black.jpg',
             health: 100,
-            baseHealth: 100,
             power: 20,
-            basePower: 20,
             counterPower: 30
         },
         {
             name: 'Fighter 2',
             portrait: 'assets/images/gray.jpg',
             health: 200,
-            baseHealth: 200,
             power: 15,
-            basePower: 15,
             counterPower: 25
         },
         {
             name: 'Fighter 3',
             portrait: 'assets/images/orange.jpg',
             health: 300,
-            baseHealth: 300,
             power: 5,
-            basePower: 5,
             counterPower: 15
         },
         {
             name: 'Fighter 4',
             portrait: 'assets/images/white.jpg',
             health: 80,
-            baseHealth: 80,
             power: 30,
-            basePower: 30,
             counterPower: 20
         }
     ];
+
+    for(let i = 0; i < fighters.length; i++) {
+        fighters[i].baseHealth = fighters[i].health;
+        fighters[i].basePower = fighters[i].power;
+    }
 
     //This loop adds cards for each fighter in the fighters array:
     function setFighterChoices(fighters) {
@@ -79,7 +76,8 @@ $(document).ready(function () {
             });
             $('.section-title').text('Chose Your Opponent');
             return false;
-        } else if (!opponentPicked) {
+        } else if (!opponentPicked && $(this).attr('id') !== myFighterID) {
+        
             $(this).appendTo('.opponent-box');
             opponentPicked = true;
             myOpponentId = $(this).attr('id');
@@ -109,7 +107,9 @@ $(document).ready(function () {
                 myFighter.health = myFighter.baseHealth;
                 myFighter.power = myFighter.basePower;
                 myOpponent.health = myOpponent.baseHealth;
-                
+                $('#' + myOpponentId).children('.fighter-health').text(myOpponent.health);
+                $('#' + myFighterID).children('.fighter-health').text(myFighter.health);
+                $('.section-title').text('Chose Your Fighter');
             }
 
             return false;
