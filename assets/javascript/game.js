@@ -31,86 +31,84 @@ $(document).ready(function () {
         }
     ];
 
-    for(let i = 0; i < fighters.length; i++) {
+    //This loop adds baseHealth and basePower to each fighter based on their starting values:
+    for (let i = 0; i < fighters.length; i++) {
         fighters[i].baseHealth = fighters[i].health;
         fighters[i].basePower = fighters[i].power;
+        fighters[i].fighterID = fighters[i].name.toLowerCase().replace(/\s/, "-");
     }
 
     //This loop adds cards for each fighter in the fighters array:
-    function setFighterChoices(fighters) {
-        console.log('hi')
+    function setFighterChoices(fighters, box) {
         for (let i = 0; i < fighters.length; i++) {
             //Copy the hidden, blank template card:
             var $card = $('.blank-fighter-card').clone();
             $card.removeClass('blank-fighter-card hidden');
-            //Give each card a custom ID based on the fighter's name:
-            $card.attr('id', fighters[i].name.toLowerCase().replace(/\s/, "-") + '-card');
             $card.attr('data-fighter-index', i);
+            $card.attr('id', fighters[i].fighterID);
             //Customize the card's content:
             $card.children('.fighter-name').text(fighters[i].name);
             $card.children('.fighter-portrait').attr('src', fighters[i].portrait);
             $card.children('.fighter-health').text(fighters[i].health);
-            $card.appendTo('.fighter-selection-box');
+            $card.appendTo(box);
         }
     }
 
-    var fighterPicked = false;
-    var opponentPicked = false;
-    var myFighterID = '';
-    var myOpponentId = '';
-    var myFighter;
-    var myOpponent;
 
-    setFighterChoices(fighters);
+
+    var fighterPicked = false, opponentPicked = false;
+    var myFighter;
+    var opponents = fighters;
+
+    setFighterChoices(fighters, $('.fighter-selection-box'));
     $('section').on('click', '.fighter-card', function () {
-        
+
         if (!fighterPicked) {
             $(this).appendTo('.fighter-box');
             fighterPicked = true;
-            myFighterID = $(this).attr('id');
             myFighter = fighters[$(this).attr('data-fighter-index')];
-            $('.fighter-card').each(function () {
-                if ($(this).attr('id') !== myFighterID && !$(this).hasClass('blank-fighter-card')) {
-                    $(this).appendTo('.opponent-selection-box');
-                }
-            });
+            opponents.splice($(this).attr('data-fighter-index'), 1);
+            setFighterChoices(opponents, $('.opponent-selection-box'));
+            $('.fighter-selection-box').addClass('hidden');
             $('.section-title').text('Chose Your Opponent');
             return false;
-        } else if (!opponentPicked && $(this).attr('id') !== myFighterID) {
-        
+        } else if (!opponentPicked && $(this).attr('id') !== myFighter.fighterID) {
+
             $(this).appendTo('.opponent-box');
             opponentPicked = true;
-            myOpponentId = $(this).attr('id');
             myOpponent = fighters[$(this).attr('data-fighter-index')];
             $('.fighter-card').each(function () {
-                if ($(this).attr('id') !== myFighterID && $(this).attr('id') !== myOpponentId) {
+                if ($(this).attr('id') !== myFighter.fighterID && $(this).attr('id') !== myOpponent.fighterID) {
                     $(this).addClass('hidden');
                 }
             });
             $('.section-title').text('Fight!');
             return false;
         } else if (fighterPicked && opponentPicked) {
-            if ($(this).attr('id') === myFighterID) {
+            if ($(this).attr('id') === myFighter.fighterID) {
                 myOpponent.health -= myFighter.power;
-                $('#' + myOpponentId).children('.fighter-health').text(myOpponent.health);
+                $('#' + myOpponent.fighterID).children('.fighter-health').text(myOpponent.health);
                 myFighter.power *= myFighter.basePower;
                 myFighter.health -= myOpponent.counterPower;
-                $('#' + myFighterID).children('.fighter-health').text(myFighter.health);
+                $('#' + myFighter.fighterID).children('.fighter-health').text(myFighter.health);
+                
+                if (myOpponent.health <= 0) {
+                    $('.opponent-box').empty();
+                    opponentPicked = false;
+                    
+                    opponents.splice(opponents.indexOf(myOpponent), 1);
+
+                    $('.section-title').text('Chose Your Opponent');
+                    setFighterChoices(opponents, $('.opponent-selection-box'));
+                    if (opponents.length === 0) {
+                        $('.section-title').text('You won!');
+                        window.setTimeout(function () {
+                            
+                        }, 5000);
+                    }
+                }
             }
-            if (myOpponent.health <= 0) {
-                setFighterChoices(fighters);
-                $('.fighter-box').empty();
-                $('.opponent-selection-box').empty();
-                $('.opponent-box').empty();
-                fighterPicked = false;
-                opponentPicked = false;
-                myFighter.health = myFighter.baseHealth;
-                myFighter.power = myFighter.basePower;
-                myOpponent.health = myOpponent.baseHealth;
-                $('#' + myOpponentId).children('.fighter-health').text(myOpponent.health);
-                $('#' + myFighterID).children('.fighter-health').text(myFighter.health);
-                $('.section-title').text('Chose Your Fighter');
-            }
+
 
             return false;
         }
