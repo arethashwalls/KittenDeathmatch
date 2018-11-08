@@ -31,6 +31,20 @@ $(document).ready(function () {
         }
     ];
 
+    function fillBox(cards, box) {
+        for (let i = 0; i < cards.length; i++) {
+            var $card = $('.blank-fighter-card').clone();
+            $card.removeClass('blank-fighter-card hidden');
+            $card.attr('data-fighter-index', i);
+            $card.attr('id', cards[i].fighterID);
+            //Customize the card's content:
+            $card.children('.fighter-name').text(cards[i].name);
+            $card.children('.fighter-portrait').attr('src', cards[i].portrait);
+            $card.children('.fighter-health').text(cards[i].health);
+            $card.appendTo(box);
+        }
+    }
+
     //This loop adds baseHealth and basePower to each fighter based on their starting values:
     for (let i = 0; i < fighters.length; i++) {
         fighters[i].baseHealth = fighters[i].health;
@@ -38,80 +52,71 @@ $(document).ready(function () {
         fighters[i].fighterID = fighters[i].name.toLowerCase().replace(/\s/, "-");
     }
 
-    //This loop adds cards for each fighter in the fighters array:
-    function setFighterChoices(fighters, box) {
-        for (let i = 0; i < fighters.length; i++) {
-            //Copy the hidden, blank template card:
-            var $card = $('.blank-fighter-card').clone();
-            $card.removeClass('blank-fighter-card hidden');
-            $card.attr('data-fighter-index', i);
-            $card.attr('id', fighters[i].fighterID);
-            //Customize the card's content:
-            $card.children('.fighter-name').text(fighters[i].name);
-            $card.children('.fighter-portrait').attr('src', fighters[i].portrait);
-            $card.children('.fighter-health').text(fighters[i].health);
-            $card.appendTo(box);
-        }
+    function Match() {
+        this.myFighter = 0;
+        this.myOpponent = 0;
+        this.allFighters = $.extend(true, [], fighters);
+        this.allOpponents = $.extend(true, [], fighters);
     }
 
+    Match.prototype.setFighters = function () {
+        $('.section-title').text('Chose Your Fighter!');
+        fillBox(this.allFighters, $('.fighter-selection-box'));
+    }
 
+    Match.prototype.setOpponents = function () {
+        $('.section-title').text('Chose Your Opponent!');
+        fillBox(this.allOpponents, $('.opponent-selection-box'));
+    }
 
-    var fighterPicked = false, opponentPicked = false;
-    var myFighter;
-    var opponents = fighters;
+    Match.prototype.setMyFighter = function (card) {
+        this.myFighter = this.allFighters[card.attr('data-fighter-index')];
+        this.allOpponents.splice(this.allOpponents.indexOf(this.myFighter), 1);
+        $('.fighter-box').append(card);
+    }
 
-    setFighterChoices(fighters, $('.fighter-selection-box'));
+    Match.prototype.setMyOpponent = function (card) {
+        this.myOpponent = this.allFighters[card.attr('data-fighter-index')];
+        this.allOpponents.splice(this.allOpponents.indexOf(this.myOpponent), 1);
+        $('.opponent-box').append(card);
+    }
+
+    Match.prototype.fight = function() {
+        this.myOpponent.health -= this.myFighter.power;
+        this.myFighter.power *= this.myFighter.basePower;
+        this.myFighter.health -= this.myOpponent.counterPower;
+        $('#' + this.myOpponent.fighterID).children('.fighter-health').text(this.myOpponent.health);
+        $('#' + this.myFighter.fighterID).children('.fighter-health').text(this.myFighter.health);
+    }
+    Match.prototype.lose = function() {
+        $('.fighter-selection-box, .fighter-box, .opponent-selection-box, .opponent-box').empty();
+        $('.win-loss-title').text('You lose...');
+    }
+
+    var match = new Match;
+
+    match.setFighters();
+
     $('section').on('click', '.fighter-card', function () {
-
-        if (!fighterPicked) {
-            $(this).appendTo('.fighter-box');
-            fighterPicked = true;
-            myFighter = fighters[$(this).attr('data-fighter-index')];
-            opponents.splice($(this).attr('data-fighter-index'), 1);
-            setFighterChoices(opponents, $('.opponent-selection-box'));
-            $('.fighter-selection-box').addClass('hidden');
-            $('.section-title').text('Chose Your Opponent');
-            return false;
-        } else if (!opponentPicked && $(this).attr('id') !== myFighter.fighterID) {
-
-            $(this).appendTo('.opponent-box');
-            opponentPicked = true;
-            myOpponent = fighters[$(this).attr('data-fighter-index')];
-            $('.fighter-card').each(function () {
-                if ($(this).attr('id') !== myFighter.fighterID && $(this).attr('id') !== myOpponent.fighterID) {
-                    $(this).addClass('hidden');
-                }
-            });
-            $('.section-title').text('Fight!');
-            return false;
-        } else if (fighterPicked && opponentPicked) {
-            if ($(this).attr('id') === myFighter.fighterID) {
-                myOpponent.health -= myFighter.power;
-                $('#' + myOpponent.fighterID).children('.fighter-health').text(myOpponent.health);
-                myFighter.power *= myFighter.basePower;
-                myFighter.health -= myOpponent.counterPower;
-                $('#' + myFighter.fighterID).children('.fighter-health').text(myFighter.health);
-                
-                if (myOpponent.health <= 0) {
-                    $('.opponent-box').empty();
-                    opponentPicked = false;
-                    
-                    opponents.splice(opponents.indexOf(myOpponent), 1);
-
-                    $('.section-title').text('Chose Your Opponent');
-                    setFighterChoices(opponents, $('.opponent-selection-box'));
-                    if (opponents.length === 0) {
-                        $('.section-title').text('You won!');
-                        window.setTimeout(function () {
-                            
-                        }, 5000);
-                    }
-                }
+        if (match.myFighter === 0 && match.myOpponent === 0) {
+            match.setMyFighter($(this));
+            match.setOpponents();
+            $('.fighter-selection-box').empty();
+        } else if (match.myOpponent === 0) {
+            match.setMyOpponent($(this));
+            $('.opponent-selection-box').empty();
+        } else {
+            match.fight();
+            if(match.myFighter.health <= 0) {
+                match.lose();
+                window.setTimeout(function () {
+                    match = new Match;
+                    console.log(fighters)
+                    console.log(match);
+                    match.setFighters();
+                }, 3000);
             }
-
-
-            return false;
         }
-    });//End onClick for Fighter and Opponent selection
+    });
 
 });
