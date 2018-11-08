@@ -43,6 +43,7 @@ $(document).ready(function () {
             $card.children('.fighter-health').text(cards[i].health);
             $card.appendTo(box);
         }
+        console.log(box)
     }
 
     //This loop adds baseHealth and basePower to each fighter based on their starting values:
@@ -62,6 +63,7 @@ $(document).ready(function () {
     Match.prototype.setFighters = function () {
         $('.section-title').text('Chose Your Fighter!');
         fillBox(this.allFighters, $('.fighter-selection-box'));
+        
     }
 
     Match.prototype.setOpponents = function () {
@@ -72,6 +74,7 @@ $(document).ready(function () {
     Match.prototype.setMyFighter = function (card) {
         this.myFighter = this.allFighters[card.attr('data-fighter-index')];
         this.allOpponents.splice(this.allOpponents.indexOf(this.myFighter), 1);
+        
         $('.fighter-box').append(card);
     }
 
@@ -111,8 +114,6 @@ $(document).ready(function () {
                 match.lose();
                 window.setTimeout(function () {
                     match = new Match;
-                    console.log(fighters)
-                    console.log(match);
                     match.setFighters();
                 }, 3000);
             }
