@@ -2,8 +2,32 @@
                             FIGHTING GAAAME
 ******************************************************************
 
-1. Define possible fighters as array of objects
-2. Write functions for picking fighter and opponent
-3. Write functions for attacking
-4. Write functions for DOM updates
-5. Game loop
+1. Define possible fighters
+2. Copy possible fighters
+
+Chosing Fighter stage:
+    Everything but fighter-select is hidden
+    if fighter is clicked:
+        copy that fighter as your fighter
+        remove it from possible fighters copy
+        Add possible fighters copy to opponents select
+        End Chose Fighter stage
+
+Chosing opponents stage:
+    If opponent is clicked:
+        Copy that opponent as your opponent
+        remove it from possible fighters copy
+        Empty opponent selection
+        End chose opponent stage
+
+Fighting stage:
+    If fight button is clicked:
+        do the fight math
+        if your health is 0:
+            You lose
+        If opponent's health is 0:
+            If all opponents are gone:
+                You win
+            Else:
+                Remove that opponent from the possible opponents list
+                Start the next opponent selection stage
