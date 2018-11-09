@@ -19,39 +19,44 @@
     <h1 class="title">Fighting Game</h1>
 
 
-    <section>
+    <div class="container">
 
-        <h2 class="section-title">Chose Your Fighter</h2>
-
-        <div class="win-loss">
+        <section class="win-loss">
             <h1 class="win-loss-title"></h1>
-        </div>
+        </section>
 
-        <div class="fighter-selection-box">
+        <section class="fighter-selection-section">
+            <h3>Select a fighter:</h3>
+            <div class="fighter-selection-box">
+            </div>
+        </section>
 
-        </div>
-
-        <div class="fighter-box">
+        <section class="fighter-section hidden">
             <h3>My Fighter</h3>
-
+            <div class="fighter-box">
+            </div>
             <button id="attack-button">Attack!</button>
-        </div>
+        </section>
 
-        <div class="opponent-selection-box">
+        <section class="opponent-selection-section hidden">
+            <h3>Select your opponent:</h3>
+            <div class="opponent-selection-box">
+            </div>
+        </section>
 
-        </div>
-
-        <div class="opponent-box">
+        <section class="opponent-section hidden">
             <h3>My Opponent</h3>
-        </div>
+            <div class="opponent-box">
+            </div>
+        </section>
 
-        <div class="blank-fighter-card hidden fighter-card">
+        <div class="blank-fighter-card fighter-card hidden">
             <h3 class="fighter-name">Fighter Name</h3>
             <img src="" alt="" class="fighter-portrait" />
             <p class="fighter-health">Fighter Health</p>
         </div>
 
-    </section>
+    </div>
 
 
 </body>

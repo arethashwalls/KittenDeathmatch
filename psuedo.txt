@@ -3,7 +3,7 @@
 ******************************************************************
 
 1. Define possible fighters
-2. Copy possible fighters
+2. Copy possible  twice
 
 Chosing Fighter stage:
     Everything but fighter-select is hidden
