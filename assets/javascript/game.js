@@ -1,42 +1,42 @@
 $(document).ready(function () {
     //Set up an array containing stats for each possible fighter:
     var fighters = [
-        {//isgood
+        {
             name: 'Deathtoxin Murdertooth',
             portrait: 'assets/images/black.jpg',
             health: 250,
             power: 20,
             counterPower: 30
         },
-        {//isgood
+        {
             name: 'Vlad the Decapitator',
             portrait: 'assets/images/gray.jpg',
             health: 230,
             power: 20,
             counterPower: 35
         },
-        {//cantloose
+        {
             name: 'She Who Thirsts For Blood',
             portrait: 'assets/images/orange.jpg',
             health: 295,
             power: 8,
             counterPower: 40
         },
-        {//isgood
+        {
             name: 'Nyarlathotep',
             portrait: 'assets/images/white.jpg',
             health: 200,
             power: 25,
             counterPower: 55
         },
-        {//isgood
+        {
             name: 'Baron Killjoy the Sixth',
             portrait: 'assets/images/tabby.jpg',
             health: 325,
             power: 5,
             counterPower: 25
         },
-        {//isgood
+        {
             name: 'Princess Prettypaws',
             portrait: 'assets/images/tuxedo-tabby.jpg',
             health: 275,
