@@ -62,6 +62,16 @@ $(document).ready(function () {
         return $box;
     }
 
+    Match.prototype.removeOpponent = function(fighter) {
+        let newOpponents = $.extend(true, [], this.opponentChoices);
+        for(let i = 0; i < newOpponents.length; i++) {
+            if(newOpponents[i].fighterID === fighter.fighterID) {
+                newOpponents.splice(i, 1);
+                return newOpponents;
+            }
+        }
+    }
+
     Match.prototype.setFighter = function(id) {
         for(let i = 0; i < this.fighterChoices.length; i++) {
             if(this.fighterChoices[i].fighterID === id) {
@@ -70,21 +80,29 @@ $(document).ready(function () {
         }
     }
 
+    
+
    
 
     //Set up a new match:
     var match = new Match;
     $('.fighter-selection-box').replaceWith(match.fillBox(match.fighterChoices));
 
-    //First, the fighter selection stage begins on clicking a fighter's portrait:
+    //The fighter selection stage begins when the player clicks a fighter's portrait:
     $('.fighter-portrait').on('click', function() {
         match.myFighter = match.setFighter($(this).attr('id'));
+        match.opponentChoices = match.removeOpponent(match.myFighter);
         $('.fighter-selection-section').addClass('hidden');
         $('.fighter-section, .opponent-selection-section').removeClass('hidden');
         $('.fighter-box').replaceWith(match.fillBox([match.myFighter]));
-        $('.opponent-selection.box').replaceWith(match.fillBox(match.opponentChoices))
-    })
+        $('.opponent-selection-box').replaceWith(match.fillBox(match.opponentChoices));
+    })//End of fighter selection stage
 
+    //Next, the opponent selection stage begins when the player clicks an opponent's portrait:
+//$('.opponent-selection-section').find('.fighter-portrait').on('click', function() {
+    $('.opponent-selection-section').on('click', '.fighter-portrait', function() {
+        console.log('hi');
+    })
 
 
 });
