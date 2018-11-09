@@ -113,7 +113,6 @@ $(document).ready(function () {
         $('.fighter-section, .opponent-selection-section').removeClass('hidden');
         $('.fighter-selection-section, button').addClass('hidden');
         $('.fighter-box').replaceWith(match.fillBox([match.myFighter]));
-        // $('.opponent-selection-box').replaceWith(match.fillBox(match.opponentChoices).addClass('opponent-selection-box'));
         $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
 
     });//End of fighter selection stage
@@ -123,7 +122,6 @@ $(document).ready(function () {
         match.myOpponent = match.setFighter($(this).attr('id'));
         $('.opponent-section, button').removeClass('hidden');
         $('.opponent-selection-section').addClass('hidden');
-        // $('.opponent-box').replaceWith(match.fillBox([match.myOpponent]).addClass('opponent-selection-box'));
         $('.opponent-box').html(match.fillBox([match.myOpponent]));
 
     });//End of opponent selection stage
@@ -135,23 +133,24 @@ $(document).ready(function () {
         match.myFighter.power = match.powerUp();
         match.myFighter.health = match.counter();
         $('.fighter-section').find('.fighter-health').text(match.myFighter.health);
+        //If player's fighter's health is 0, display the loss screen:
         if(match.myFighter.health <= 0) {
             hideAll();
             $('.win-loss').removeClass('hidden');
             $('.win-loss-title').text('You lose...');
+        //If they still have health and their opponent's health is 0:
         } else if(match.myOpponent.health <= 0) {
+            //Remove that opponent from the array of possible opponents:
             match.opponentChoices = match.removeOpponent(match.myOpponent);
+            //If there are no opponents remaining, the player wins:
             if(match.opponentChoices.length === 0) {
                 hideAll();
                 $('.win-loss').removeClass('hidden');
                 $('.win-loss-title').text('You win!');
+            //If not, they're taken back to the opponent selection stage:
             } else {
-    
-                console.log(match.myOpponent)
-                console.log(match.opponentChoices);
                 $('.opponent-selection-section').removeClass('hidden');
                 $('.opponent-section').addClass('hidden');
-                // $('.opponent-selection-box').replaceWith(match.fillBox(match.opponentChoices).addClass('opponent-selection-box'));
                 $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
 
             }
