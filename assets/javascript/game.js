@@ -47,12 +47,13 @@ $(document).ready(function () {
         this.myOpponent = 0;
     }
 
+    //This function returns a new div filled with each fighter from the array provided:
     Match.prototype.fillBox = function(cardArray) {
         $box = $('<div>');
         for(let i = 0; i < cardArray.length; i++) {
             $card = $('.blank-fighter-card').clone();
             $card.removeClass('blank-fighter-card hidden');
-            $card.attr('id', cardArray[i].fighterID);
+            $card.children('.fighter-portrait').attr('id', cardArray[i].fighterID);
             $card.children('.fighter-name').text(cardArray[i].name);
             $card.children('.fighter-portrait').attr('src', cardArray[i].portrait);
             $card.children('.fighter-health').text(cardArray[i].health);
@@ -61,8 +62,28 @@ $(document).ready(function () {
         return $box;
     }
 
+    Match.prototype.setFighter = function(id) {
+        for(let i = 0; i < this.fighterChoices.length; i++) {
+            if(this.fighterChoices[i].fighterID === id) {
+                return $.extend({}, this.fighterChoices[i]);
+            }
+        }
+    }
+
+   
+
+    //Set up a new match:
     var match = new Match;
     $('.fighter-selection-box').replaceWith(match.fillBox(match.fighterChoices));
+
+    //First, the fighter selection stage begins on clicking a fighter's portrait:
+    $('.fighter-portrait').on('click', function() {
+        match.myFighter = match.setFighter($(this).attr('id'));
+        $('.fighter-selection-section').addClass('hidden');
+        $('.fighter-section, .opponent-selection-section').removeClass('hidden');
+        $('.fighter-box').replaceWith(match.fillBox([match.myFighter]));
+        $('.opponent-selection.box').replaceWith(match.fillBox(match.opponentChoices))
+    })
 
 
 
