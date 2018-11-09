@@ -38,6 +38,13 @@ $(document).ready(function () {
         fighters[i].fighterID = fighters[i].name.toLowerCase().replace(/\s/, "-");
     }
 
+    function hideAll() {
+        $('.fighter-selection-section').addClass('hidden');
+        $('.fighter-section').addClass('hidden');
+        $('.opponent-selection-section').addClass('hidden');
+        $('.opponent-section').addClass('hidden');
+    }
+
     //Define the Match object:
     function Match() {
         //Deep copy the fighters array twice, once for fighters, once for opponents:
@@ -58,6 +65,7 @@ $(document).ready(function () {
             $card.children('.fighter-portrait').attr('src', cardArray[i].portrait);
             $card.children('.fighter-health').text(cardArray[i].health);
             $box.append($card);
+            
         }
         return $box;
     }
@@ -80,7 +88,17 @@ $(document).ready(function () {
         }
     }
 
-    
+    Match.prototype.attack = function() {
+        return (this.myOpponent.health - this.myFighter.power);
+    }
+
+    Match.prototype.powerUp = function() {
+        return (this.myFighter.power * this.myFighter.basePower);
+    }
+
+    Match.prototype.counter = function() {
+        return (this.myFighter.health - this.myOpponent.counterPower);
+    }
 
    
 
@@ -92,17 +110,54 @@ $(document).ready(function () {
     $('.fighter-portrait').on('click', function() {
         match.myFighter = match.setFighter($(this).attr('id'));
         match.opponentChoices = match.removeOpponent(match.myFighter);
-        $('.fighter-selection-section').addClass('hidden');
         $('.fighter-section, .opponent-selection-section').removeClass('hidden');
+        $('.fighter-selection-section, button').addClass('hidden');
         $('.fighter-box').replaceWith(match.fillBox([match.myFighter]));
-        $('.opponent-selection-box').replaceWith(match.fillBox(match.opponentChoices));
-    })//End of fighter selection stage
+        // $('.opponent-selection-box').replaceWith(match.fillBox(match.opponentChoices).addClass('opponent-selection-box'));
+        $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
+
+    });//End of fighter selection stage
 
     //Next, the opponent selection stage begins when the player clicks an opponent's portrait:
-//$('.opponent-selection-section').find('.fighter-portrait').on('click', function() {
     $('.opponent-selection-section').on('click', '.fighter-portrait', function() {
-        console.log('hi');
-    })
+        match.myOpponent = match.setFighter($(this).attr('id'));
+        $('.opponent-section, button').removeClass('hidden');
+        $('.opponent-selection-section').addClass('hidden');
+        // $('.opponent-box').replaceWith(match.fillBox([match.myOpponent]).addClass('opponent-selection-box'));
+        $('.opponent-box').html(match.fillBox([match.myOpponent]));
+
+    });//End of opponent selection stage
+
+    //Now, the attack button is available:
+    $('#attack-button').on('click', function() {
+        match.myOpponent.health = match.attack();
+        $('.opponent-section').find('.fighter-health').text(match.myOpponent.health);
+        match.myFighter.power = match.powerUp();
+        match.myFighter.health = match.counter();
+        $('.fighter-section').find('.fighter-health').text(match.myFighter.health);
+        if(match.myFighter.health <= 0) {
+            hideAll();
+            $('.win-loss').removeClass('hidden');
+            $('.win-loss-title').text('You lose...');
+        } else if(match.myOpponent.health <= 0) {
+            match.opponentChoices = match.removeOpponent(match.myOpponent);
+            if(match.opponentChoices.length === 0) {
+                hideAll();
+                $('.win-loss').removeClass('hidden');
+                $('.win-loss-title').text('You win!');
+            } else {
+    
+                console.log(match.myOpponent)
+                console.log(match.opponentChoices);
+                $('.opponent-selection-section').removeClass('hidden');
+                $('.opponent-section').addClass('hidden');
+                // $('.opponent-selection-box').replaceWith(match.fillBox(match.opponentChoices).addClass('opponent-selection-box'));
+                $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
+
+            }
+        }
+    });
+
 
 
 });
