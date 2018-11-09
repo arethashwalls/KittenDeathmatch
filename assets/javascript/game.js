@@ -1,47 +1,47 @@
 $(document).ready(function () {
     //Set up an array containing stats for each possible fighter:
     var fighters = [
-        {
+        {//isgood
             name: 'Deathtoxin Murdertooth',
             portrait: 'assets/images/black.jpg',
-            health: 100,
-            power: 5,
-            counterPower: 10
+            health: 250,
+            power: 20,
+            counterPower: 30
         },
-        {
+        {//isgood
             name: 'Vlad the Decapitator',
             portrait: 'assets/images/gray.jpg',
-            health: 200,
-            power: 3,
-            counterPower: 12
+            health: 230,
+            power: 20,
+            counterPower: 35
         },
-        {
+        {//cantloose
             name: 'She Who Thirsts For Blood',
             portrait: 'assets/images/orange.jpg',
-            health: 250,
-            power: 2,
-            counterPower: 8
+            health: 295,
+            power: 8,
+            counterPower: 40
         },
-        {
+        {//isgood
             name: 'Nyarlathotep',
             portrait: 'assets/images/white.jpg',
-            health: 90,
-            power: 8,
-            counterPower: 10
+            health: 200,
+            power: 25,
+            counterPower: 55
         },
-        {
+        {//isgood
             name: 'Baron Killjoy the Sixth',
             portrait: 'assets/images/tabby.jpg',
-            health: 300,
-            power: 2,
-            counterPower: 5
+            health: 325,
+            power: 5,
+            counterPower: 25
         },
-        {
+        {//isgood
             name: 'Princess Prettypaws',
             portrait: 'assets/images/tuxedo-tabby.jpg',
-            health: 175,
-            power: 3,
-            counterPower: 7
+            health: 275,
+            power: 7,
+            counterPower: 40
         }
     ];
 
@@ -58,6 +58,7 @@ $(document).ready(function () {
         $('.opponent-selection-section').addClass('hidden');
         $('.opponent-section').addClass('hidden');
     }
+
 
     //Define the Match object:
     function Match() {
@@ -164,11 +165,11 @@ $(document).ready(function () {
             //If not, they're taken back to the opponent selection stage:
             } else {
                 $('.opponent-selection-section').removeClass('hidden');
-                $('.opponent-section').addClass('hidden');
+                $('.opponent-section, button').addClass('hidden');
                 $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
 
             }
-        }
+        } 
     });
 
 
