@@ -115,8 +115,6 @@ $(document).ready(function () {
         return (this.myFighter.health - this.myOpponent.counterPower);
     }
 
-   
-
     //Set up a new match:
     var match = new Match;
     $('.fighter-selection-box').replaceWith(match.fillBox(match.fighterChoices));
@@ -152,6 +150,7 @@ $(document).ready(function () {
         if(match.myFighter.health <= 0) {
             hideAll();
             $('.win-loss').removeClass('hidden');
+            $('.win-loss-box').html(match.fillBox([match.myFighter]));
             $('.win-loss-title').text('You lose...');
         //If they still have health and their opponent's health is 0:
         } else if(match.myOpponent.health <= 0) {
@@ -161,17 +160,15 @@ $(document).ready(function () {
             if(match.opponentChoices.length === 0) {
                 hideAll();
                 $('.win-loss').removeClass('hidden');
+                $('.win-loss-box').html(match.fillBox([match.myFighter]));
                 $('.win-loss-title').text('You win!');
+                window.setTimeout
             //If not, they're taken back to the opponent selection stage:
             } else {
                 $('.opponent-selection-section').removeClass('hidden');
                 $('.opponent-section, button').addClass('hidden');
                 $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
-
             }
         } 
     });
-
-
-
 });

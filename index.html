@@ -7,6 +7,7 @@
     <title>Fighting game</title>
     <meta name="description" content="a fighting game" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Creepster|Jolly+Lodger" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/reset.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -16,36 +17,38 @@
 
 <body>
 
-    <h1 class="title">Fighting Game</h1>
+    <h1 class="title">Kitten Deathmatch</h1>
 
 
     <div class="container">
 
         <section class="win-loss hidden">
-            <h1 class="win-loss-title"></h1>
+            <h2 class="win-loss-title"></h2>
+            <div class="win-loss-box"></div>
+            <button id="reset button">Play again</button>
         </section>
 
         <section class="fighter-selection-section">
-            <h3>Select a fighter:</h3>
+            <h2>Select your champion!</h2>
             <div class="fighter-selection-box">
             </div>
         </section>
 
         <section class="fighter-section hidden">
-            <h3>My Fighter</h3>
+            <h2>My champion:</h2>
             <div class="fighter-box">
             </div>
             <button id="attack-button" class="">Attack!</button>
         </section>
 
         <section class="opponent-selection-section hidden">
-            <h3>Select your opponent:</h3>
+            <h2>Select your foe!</h2>
             <div class="opponent-selection-box">
             </div>
         </section>
 
         <section class="opponent-section hidden">
-            <h3>My Opponent</h3>
+            <h2>My foe:</h2>
             <div class="opponent-box">
             </div>
         </section>
