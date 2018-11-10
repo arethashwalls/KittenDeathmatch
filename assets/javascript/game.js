@@ -59,7 +59,6 @@ $(document).ready(function () {
         $('.opponent-section').addClass('hidden');
     }
 
-
     //Define the Match object:
     function Match() {
         //Deep copy the fighters array twice, once for fighters, once for opponents:
@@ -115,17 +114,20 @@ $(document).ready(function () {
         return (this.myFighter.health - this.myOpponent.counterPower);
     }
 
+    
+
     //Set up a new match:
     var match = new Match;
-    $('.fighter-selection-box').replaceWith(match.fillBox(match.fighterChoices));
+    $('.fighter-selection-box').html(match.fillBox(match.fighterChoices));
 
     //The fighter selection stage begins when the player clicks a fighter's portrait:
-    $('.fighter-portrait').on('click', function() {
+    //$('.fighter-portrait').on('click', function() {
+    $('.fighter-selection-box').on('click', '.fighter-portrait', function() {
         match.myFighter = match.setFighter($(this).attr('id'));
         match.opponentChoices = match.removeOpponent(match.myFighter);
         $('.fighter-section, .opponent-selection-section').removeClass('hidden');
         $('.fighter-selection-section, button').addClass('hidden');
-        $('.fighter-box').replaceWith(match.fillBox([match.myFighter]));
+        $('.fighter-box').html(match.fillBox([match.myFighter]));
         $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
 
     });//End of fighter selection stage
@@ -162,7 +164,6 @@ $(document).ready(function () {
                 $('.win-loss').removeClass('hidden');
                 $('.win-loss-box').html(match.fillBox([match.myFighter]));
                 $('.win-loss-title').text('You win!');
-                window.setTimeout
             //If not, they're taken back to the opponent selection stage:
             } else {
                 $('.opponent-selection-section').removeClass('hidden');
@@ -170,5 +171,12 @@ $(document).ready(function () {
                 $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
             }
         } 
+    });
+
+    $('#reset-button').on('click', function() {
+        match = new Match;
+        $('.win-loss').addClass('hidden');
+        $('.fighter-selection-section').removeClass('hidden');
+        $('.fighter-selection-box').html(match.fillBox(match.fighterChoices));
     });
 });
