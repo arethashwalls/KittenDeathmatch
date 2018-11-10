@@ -56,10 +56,34 @@ h3 {
     margin: auto;
 }
 
+.portrait-container {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
 .fighter-portrait {
     width: 50%;
     display: block;
     margin: 0 auto;
+    height: auto;
+    overflow:hidden;
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    top: 0;
+    left: 25%;
+    background: #8D0801;
+    opacity:0.5;
+    visibility: hidden;
+    transition: all .5s ease;
+}
+
+.portrait-container:hover .overlay {
+    visibility: visible;
 }
 
 .hidden {

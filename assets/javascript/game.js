@@ -76,7 +76,7 @@ $(document).ready(function () {
             $card.removeClass('blank-fighter-card hidden');
             $card.children('.fighter-portrait').attr('id', cardArray[i].fighterID);
             $card.children('.fighter-name').text(cardArray[i].name);
-            $card.children('.fighter-portrait').attr('src', cardArray[i].portrait);
+            $card.find('.fighter-portrait').attr('src', cardArray[i].portrait);
             $card.children('.fighter-health').text(cardArray[i].health);
             $box.append($card);
             
