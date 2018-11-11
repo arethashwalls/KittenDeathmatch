@@ -184,7 +184,7 @@ $(document).ready(function () {
     $('#reset-button').on('click', function() {
         match = new Match;
         $('.win-loss').addClass('hidden');
-        $('.fighter-selection-section, h1, .warning, .photo-info').removeClass('hidden');
+        $('.fighter-selection-section, h1, .warning, .photo-infof').removeClass('hidden');
         $('.fighter-selection-box').html(match.fillBox(match.fighterChoices));
     });
 });
