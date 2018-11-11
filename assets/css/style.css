@@ -23,6 +23,7 @@ h1 {
 
 h2 {
     font-size: 3em;
+    padding-top: 20px;
     text-shadow:
    -1px -1px 0 #8D0801, 
     1px -1px 0 #8D0801,
@@ -51,6 +52,19 @@ em {
 
 strong {
     font-weight: 600;
+}
+
+button {
+    background: #043C4F;
+    color: #F0A202;
+    font-family: Georgia, Times, 'Times New Roman', serif; 
+    font-size: 1.5em;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    margin: auto;
+    padding: 10px 15px;
+    margin-top: 20px;
 }
 
 .container {
@@ -104,7 +118,7 @@ strong {
     
 }
 
-.portrait-container:hover .overlay {
+.fighter-selection-section .portrait-container:hover .overlay {
     visibility: visible;
     width: 100%;
     transition: all 5s ease-in-out
@@ -118,6 +132,37 @@ p.description{
     height: inherit;
     color: black;
 
+}
+
+.fighter-section, .opponent-selection-section, .opponent-section {
+    width: 50%;
+    float: left;
+}
+
+.fighter-section .fighter-card, .opponent-section .fighter-card {
+    width: 100%;
+}
+
+.opponent-selection-section .fighter-card {
+    width: calc(100%/3);
+}
+
+.opponent-selection-section h3 {
+    font-size: 1.5em;
+}
+
+.win-loss {
+    width: 100%;
+}
+
+.win-loss .fighter-card {
+    width: 50%;
+    display: block;
+    margin: auto;
+}
+
+.photo-info {
+    margin: 20px 0;
 }
 
 .hidden {

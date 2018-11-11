@@ -134,15 +134,15 @@ $(document).ready(function () {
         match.myFighter = match.setFighter($('.fighter-portrait', this).attr('id'));
         match.opponentChoices = match.removeOpponent(match.myFighter);
         $('.fighter-section, .opponent-selection-section').removeClass('hidden');
-        $('.fighter-selection-section, button').addClass('hidden');
+        $('.fighter-selection-section, button, h1, .warning, .photo-info').addClass('hidden');
         $('.fighter-box').html(match.fillBox([match.myFighter]));
         $('.opponent-selection-box').html(match.fillBox(match.opponentChoices));
 
     });//End of fighter selection stage
 
     //Next, the opponent selection stage begins when the player clicks an opponent's portrait:
-    $('.opponent-selection-section').on('click', '.portrait-container', function() {
-        match.myOpponent = match.setFighter($('.fighter-portrait', this).attr('id'));
+    $('.opponent-selection-section').on('click', '.fighter-portrait', function() {
+        match.myOpponent = match.setFighter($(this).attr('id'));
         $('.opponent-section, button').removeClass('hidden');
         $('.opponent-selection-section').addClass('hidden');
         $('.opponent-box').html(match.fillBox([match.myOpponent]));
@@ -184,7 +184,7 @@ $(document).ready(function () {
     $('#reset-button').on('click', function() {
         match = new Match;
         $('.win-loss').addClass('hidden');
-        $('.fighter-selection-section').removeClass('hidden');
+        $('.fighter-selection-section, h1, .warning, .photo-info').removeClass('hidden');
         $('.fighter-selection-box').html(match.fillBox(match.fighterChoices));
     });
 });
