@@ -32,3 +32,9 @@ Clicking the `#attack-button` triggers the **attack**, **powerUp**, and **counte
   1. If *opponentChoices* is empty, the player wins.
 
 Clicking the `#reset-button` resets the game.
+
+## TODO:
+
+* Add photo credits
+* Add responsive styles
+* Look at deep-copies and 0 assignment and see if I can't get rid of 'em
