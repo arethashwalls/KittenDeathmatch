@@ -6,42 +6,48 @@ $(document).ready(function () {
             portrait: 'assets/images/black.jpg',
             health: 250,
             power: 20,
-            counterPower: 30
+            counterPower: 30,
+            bio: 'Spent 30 years in federal prison for a crime he absolutely committed.'
         },
         {
             name: 'Vlad the Decapitator',
             portrait: 'assets/images/gray.jpg',
             health: 230,
             power: 20,
-            counterPower: 35
+            counterPower: 35,
+            bio: 'Fled his home country as soon as the new regime convened a tribunal on war crimes.'
         },
         {
             name: 'She Who Thirsts For Blood',
             portrait: 'assets/images/orange.jpg',
             health: 295,
             power: 8,
-            counterPower: 40
+            counterPower: 40,
+            bio: 'Nobody knows her true name. Even she has forgotten. It’s been so long…',
         },
         {
             name: 'Nyarlathotep',
             portrait: 'assets/images/white.jpg',
             health: 200,
             power: 25,
-            counterPower: 55
+            counterPower: 55,
+            bio: 'Nyarlathotep… the crawling chaos… I am the last… I will tell the audient void….'
         },
         {
             name: 'Baron Killjoy the Sixth',
             portrait: 'assets/images/tabby.jpg',
             health: 325,
             power: 5,
-            counterPower: 25
+            counterPower: 25,
+            bio: 'He was eight in line to inherit the barony, until suddenly he was first.'
         },
         {
             name: 'Princess Prettypaws',
             portrait: 'assets/images/tuxedo-tabby.jpg',
             health: 275,
             power: 7,
-            counterPower: 40
+            counterPower: 40,
+            bio: 'Loves catnip and cuddles!<br/><br/>❤️❤️❤️'
         }
     ];
 
@@ -50,6 +56,7 @@ $(document).ready(function () {
         fighters[i].baseHealth = fighters[i].health;
         fighters[i].basePower = fighters[i].power;
         fighters[i].fighterID = fighters[i].name.toLowerCase().replace(/\s/, "-");
+        fighters[i].statSum =  'Health: ' + fighters[i].health + '<br />Attack: ' + fighters[i].power + '<br />Counter: ' + fighters[i].counterPower + '<br /><br /><strong>' + fighters[i].bio + '</strong>';
     }
 
     function hideAll() {
@@ -74,9 +81,10 @@ $(document).ready(function () {
         for(let i = 0; i < cardArray.length; i++) {
             $card = $('.blank-fighter-card').clone();
             $card.removeClass('blank-fighter-card hidden');
-            $card.children('.fighter-portrait').attr('id', cardArray[i].fighterID);
+            $card.find('.fighter-portrait').attr('id', cardArray[i].fighterID);
             $card.children('.fighter-name').text(cardArray[i].name);
             $card.find('.fighter-portrait').attr('src', cardArray[i].portrait);
+            $card.find('.description').html(cardArray[i].statSum);
             $card.children('.fighter-health').text(cardArray[i].health);
             $box.append($card);
             
@@ -122,8 +130,8 @@ $(document).ready(function () {
 
     //The fighter selection stage begins when the player clicks a fighter's portrait:
     //$('.fighter-portrait').on('click', function() {
-    $('.fighter-selection-box').on('click', '.fighter-portrait', function() {
-        match.myFighter = match.setFighter($(this).attr('id'));
+    $('.fighter-selection-box').on('click', '.portrait-container', function() {
+        match.myFighter = match.setFighter($('.fighter-portrait', this).attr('id'));
         match.opponentChoices = match.removeOpponent(match.myFighter);
         $('.fighter-section, .opponent-selection-section').removeClass('hidden');
         $('.fighter-selection-section, button').addClass('hidden');
@@ -133,8 +141,8 @@ $(document).ready(function () {
     });//End of fighter selection stage
 
     //Next, the opponent selection stage begins when the player clicks an opponent's portrait:
-    $('.opponent-selection-section').on('click', '.fighter-portrait', function() {
-        match.myOpponent = match.setFighter($(this).attr('id'));
+    $('.opponent-selection-section').on('click', '.portrait-container', function() {
+        match.myOpponent = match.setFighter($('.fighter-portrait', this).attr('id'));
         $('.opponent-section, button').removeClass('hidden');
         $('.opponent-selection-section').addClass('hidden');
         $('.opponent-box').html(match.fillBox([match.myOpponent]));
